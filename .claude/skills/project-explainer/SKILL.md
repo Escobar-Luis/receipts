@@ -14,7 +14,7 @@ The same data also drives the ~30 s how-it-works clip, so every word must be tru
 
 ## Steps
 
-1. **Read the facts first.** `README.md`, `project.json`, `docs/spec.md`, `docs/memlog.md`, then the code
+1. **Read the facts first.** `README.md`, `project.json`, the spec and brief under `_bmad-output/planning-artifacts/` and the memlogs (`_bmad-output/**/.memlog.md`), then the code
    that makes each claim true: `src/worker/index.ts` (routes), `src/worker/llm.ts`, `db/*.sql`, `src/web/`,
    anything the build added. Never describe something the code doesn't do. Something not built yet is left out.
 2. **Pick 5 to 9 nodes** (the build allows 3 to 12): the parts a listener needs, not every file. Usually the visitor's page, the API,

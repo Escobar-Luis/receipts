@@ -5,3 +5,6 @@ dist/
 .env
 *.log
 tools/.stack-snapshot.json
+
+# Party-mode memory is personal; kept local only
+_bmad-output/party-mode/

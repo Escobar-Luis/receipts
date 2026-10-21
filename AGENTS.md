@@ -1,21 +1,25 @@
 # Build agent rules
 
+North-star deck (the problem, evidence and our answer): https://claude.ai/artifact/HQPtzmnoHGCX5zGmDjvRat
+BMad (bmad-toolbox 6.13.0-next) is set up in `_bmad/`; planning output goes in `_bmad-output/`.
+`_bmad-output/` is the source of truth for specs, stories and decisions (Luis, 2026-10-21); there is no `docs/spec.md` or `docs/memlog.md`.
+
 You are building one Project: a small, live, $0 full-stack demo that shows a fix for one Startup's problem.
 These rules bind every agent working in this repo.
 
 ## Loop (BMad)
 
-1. Read `project.json`, `README.md` and anything under `docs/` (the Startup's problem, evidence and pick).
-2. Write a short spec in `docs/spec.md`, then stories, then build one story at a time.
-3. Log every decision and every answered question in `docs/memlog.md`.
+1. Read `project.json`, `README.md` and anything under `_bmad-output/planning-artifacts/` (the Startup's problem, evidence, brief and pick), including the hidden `.memlog.md` files.
+2. Write a short spec with `bmad-spec` (it writes under `_bmad-output/planning-artifacts/`), then stories, then build one story at a time.
+3. Log every decision and every answered question with `uv run _bmad/scripts/memlog.py append`: in the `.memlog.md` of the BMad workflow folder you are working in (a brief, spec or story folder under `_bmad-output/`), else in `_bmad-output/.memlog.md`.
 4. Run `npm test` and `npm run build` until both pass. Add a vitest test for each new behavior.
 5. Review your own diff and write `review/code-review.md` (format below). Fix every high finding.
 6. Commit with conventional prefixes (`feat:`, `fix:`, `test:`, `docs:`, `chore:`) naming the Startup id. Never push; the workflow pushes after gitleaks.
 
 ## Research before asking; never invent
 
-1. An open question about the domain, a vendor or an API: research it (docs, the Startup's public site) and log the answer with its source in `docs/memlog.md`.
-2. A fact you cannot find: write it as an open question in `docs/memlog.md`. Never fill a plausible guess.
+1. An open question about the domain, a vendor or an API: research it (docs, the Startup's public site) and log the answer with its source in the memlog (loop step 3).
+2. A fact you cannot find: write it as an open question in the memlog (loop step 3). Never fill a plausible guess.
 3. Never invent facts about the Startup, its customers, its numbers, or about Luis.
 
 ## Stack
@@ -36,6 +40,7 @@ These rules bind every agent working in this repo.
 1. No logos, trademarks, brand images or brand fonts of the Startup or anyone else.
 2. Keep the footer: "independent demo by Luis Escobar, not affiliated with <company>" (set from `project.json`).
 3. Claim in the README only what the Project actually does.
+4. This repo is public. Never name the companies, postings or job IDs Luis is applying to in any committed file (docs, `_bmad-output/`, code, commit messages, PR text); describe roles by type ("applied AI engineer"). Public facts about a company used as problem evidence are fine, as long as nothing ties them to his applications. Check the diff for this before every commit.
 
 ## Files you fill in
 
