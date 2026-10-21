@@ -1,0 +1,61 @@
+# startup-project-template
+
+The template every Project starts from: a live, $0, full-stack demo with its own database, a stable link and a demo mode.
+`gh repo create <name> --public --template Escobar-Luis/startup-project-template`.
+
+## Problem
+
+Replace with the Startup's problem: who hurts, and how much, in two or three sentences.
+
+## Evidence
+
+Replace with the evidence for the problem, each item with its source link and date.
+
+## What was built
+
+The template ships:
+
+1. A Vite + React + Tailwind single-page app served as Workers static assets, reading `project.json` for the Startup name, colors and problem.
+2. A Hono API on the same Worker under `/api/*`, plus `/health` (`{ok, db, sha}`, always 200).
+3. `llm()` (`src/worker/llm.ts`): per-visitor rate limit, a daily counter in Neon, then Workers AI, Groq and OpenRouter free tiers, then demo mode with the banner "Live AI quota reached, showing a recorded run".
+4. Neon Postgres per Project through drizzle over HTTP, with row-level security on visitor input (`db/rls.sql`).
+5. `.github/workflows/ship.yml`: a `build` job (Claude Code action with a read-only token), a `publish` job on a fresh runner (protected-path check, rebase on main, tests, build, gitleaks, push) and a `deploy` job (review, placeholder, Pages and size gates, Neon provisioning, wrangler deploy with its secrets in the same version, `/health` smoke check needing `db:true`, `deployed.json`, GitHub Pages).
+6. An architecture explainer, `public/explainer.html`: one self-contained page (a clickable Mermaid diagram, a panel per part with its files and why, and a numbered tour in talk-track order) built by `scripts/build-explainer.mjs` from `public/explainer.json`, which the `project-explainer` skill (`.claude/skills/project-explainer/`) writes. It opens from a file, as a Worker static asset and on Pages.
+7. A best-effort `render-clip` job that renders a ~30 s captioned how-it-works clip from the same data with HyperFrames on the runner; deploy ships it as `how-it-works.mp4` when it rendered, and a failed render never fails the deploy.
+8. A GitHub Pages front (`pages/index.html`) that sends visitors to the live Worker when it answers and shows the recorded runs when it does not. It is the link to share; it outlives the Worker.
+
+The footer reads "independent demo by Luis Escobar, not affiliated with <company>".
+
+## How to run
+
+```bash
+npm ci
+npm test          # vitest; providers and the database are mocked
+npm run build     # explainer, type-check, Vite build to dist/, and a check that no secret reached dist/
+npm run explainer # only rebuild public/explainer.html from public/explainer.json
+npm run build:worker   # wrangler dry-run bundle of the Worker
+```
+
+Deploys run only in GitHub Actions (`ship.yml`), never on a laptop. One-time setup per Project:
+
+```bash
+gh secret set CLAUDE_CODE_OAUTH_TOKEN --env build
+gh secret set CLOUDFLARE_API_TOKEN --env deploy     # Workers Scripts:Edit
+gh secret set CLOUDFLARE_ACCOUNT_ID --env deploy
+gh secret set NEON_API_KEY --env deploy
+gh secret set GROQ_API_KEY --env deploy             # optional
+gh secret set OPENROUTER_API_KEY --env deploy       # optional
+gh workflow run ship.yml -f max_turns=80 -f timeout_minutes=60
+```
+
+Pages is served from the `gh-pages` branch, which the deploy job writes. The workflow's token cannot turn Pages on,
+so the deploy fails with "Pages not enabled" until it is on. The build step (story 3.9) enables it once from the Mac:
+
+```bash
+git push origin "$(git commit-tree "$(git hash-object -t tree /dev/null)" -m 'chore: gh-pages')":refs/heads/gh-pages
+gh api -X POST repos/Escobar-Luis/<repo>/pages -f build_type=legacy -f 'source[branch]=gh-pages' -f 'source[path]=/'
+```
+
+## stack_note
+
+None: this Project uses the template stack in `STACK.md` unchanged.
