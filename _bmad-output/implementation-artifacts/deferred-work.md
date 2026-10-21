@@ -2,5 +2,5 @@
 
 ## Deferred from: code review of PR #1, chore/bmad-setup (2026-10-21)
 
-- **Two homes for planning docs.** BMad writes specs and stories to `_bmad-output/`; the template's `AGENTS.md` loop names `docs/spec.md` and `docs/memlog.md`. Deploy checks read neither, so nothing breaks today, but agents may write to both. Settle it in the brief/PRD stage and add one line to `AGENTS.md` saying which folder is the source of truth. Deferred: the fix edits agent-context files.
-- **`AGENTS.md` doesn't mention BMad yet.** No note on the BMad version (bmad-toolbox 6.13.0-next) or the north-star deck link. Mary adds the deck link in stage 2. Deferred: the fix edits agent-context files.
+- [x] **Two homes for planning docs.** Resolved 2026-10-21 (chore/mary-brief): Luis chose `_bmad-output/` as the source of truth; `AGENTS.md` now says so and its loop points there.
+- [x] **`AGENTS.md` doesn't mention BMad yet.** Resolved 2026-10-21 (chore/mary-brief): `AGENTS.md` names bmad-toolbox 6.13.0-next, `_bmad-output/` and the north-star deck link.
