@@ -8,12 +8,10 @@ updated: 2026-10-21
 
 ## Posting sources
 
-Files are under `~/dev/ai-engineering-journey/apply/postings/`.
-
-- Unify, Applied AI Engineer: https://www.linkedin.com/jobs/view/4482028342. File: `4482028342.txt`.
-- Quora, Full Stack New Grad: no link saved. File: `5494e6a1-a973-46af-b9f3-57208eb91b52.txt`.
-- Provectus, Associate FDE: no link saved. File: `bi-11787559.txt`.
-- Deloitte, FDE AWS: https://apply.deloitte.com/en_US/careers/InviteToApply?jobId=350570. File: `4418120330.txt` (a summary, not the full posting).
+- Unify, Applied AI Engineer: https://www.linkedin.com/jobs/view/4482028342
+- Quora, Full Stack New Grad: no public link saved
+- Provectus, Associate FDE: no public link saved
+- Deloitte, FDE AWS: https://apply.deloitte.com/en_US/careers/InviteToApply?jobId=350570 (Luis's saved copy is a summary, not the full posting)
 
 ## Party-mode findings (2026-10-21): a BMad multi-agent discussion
 
@@ -23,7 +21,7 @@ UI sketches discussed (not designs yet):
 - Evals page: score cards (recall, precision, quotes verified, best free model), the 2x2, missed cases with the agent's steps.
 - Flow: sign in → add report → results per claim → no-citations guardrail.
 
-## Evals checklist gap check (`~/dev/ai-engineering-journey/docs/checklists/evals.md`)
+## Evals checklist gap check (Luis's evals checklist; local only, not in this repo)
 
 - Covered: gold set; adversarial set.
 - Partly:
@@ -46,7 +44,7 @@ The consult answered calibration, thresholds, gates, tool calls and the retrieva
 
 ## Book consult
 
-Record: `~/dev/ai-engineering-journey/research/2026-10-21-consult-receipts-evals.md`. Live map: https://claude.ai/artifact/TK7XvbCaho2i1Sj3hDqAs3. Decisions go into the architecture doc when Winston creates it.
+The record is in Luis's private notes (local only, not in this repo); the decisions are summarized in the brief. Live map: https://claude.ai/artifact/TK7XvbCaho2i1Sj3hDqAs3. Decisions go into the architecture doc when Winston creates it.
 
 ## Prior art for scoring
 

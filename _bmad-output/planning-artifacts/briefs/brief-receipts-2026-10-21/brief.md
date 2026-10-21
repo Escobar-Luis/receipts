@@ -25,7 +25,7 @@ Fluent AI text reads as true, and nobody checks the citations until after delive
 - Courts in 35 countries have issued about 1,600 decisions on AI-made content by mid-2026 ([MCE notice](https://www.notices.mce.ca.gov/2026/06/courts-cracking-down-on-error-strewn-ai-assisted-legal-briefs/)).
 - At 11x, staff cited 70–80% churn among inbound customers, with hallucinations named as a reason ([TechCrunch](https://techcrunch.com/2025/03/24/a16z-and-benchmark-backed-11x-has-been-claiming-customers-it-doesnt-have)).
 
-[ASSUMPTION] Today the check is manual and late: an academic, a judge or a client clicks the citations after the report ships.
+In the cases above, the fakes were found after delivery: by an academic in Australia, by the province in Newfoundland, by judges in court.
 
 ## The solution
 
@@ -36,7 +36,8 @@ Fluent AI text reads as true, and nobody checks the citations until after delive
 
 Guardrails:
 - A report with no citations gets a clear "nothing to check" message, not a guess.
-- A source it can't read (paywalled, down) is marked unavailable (a status, not a fifth label) and left for a human. It never guesses.
+- A source it can't read (paywalled, down) is marked unavailable (a status, not a fifth label) and left for a human.
+- A claim with no citation is listed as "no citation, not checked", never dropped. It never guesses.
 
 ## How we'll know it works
 
@@ -46,7 +47,7 @@ Evals are the center of the project, and they are visible: an evals page shows t
 - **The labeling model is calibrated** against labels Luis sets by hand, cites the passage it used, and is versioned (model, prompt, rubric).
 - **Tool calls get rule checks**: right URL or ID, a successful fetch, non-empty content. Failures and latency are tracked apart from quality.
 - **Gates are tiered**: a bad citation passed as supported is a hard block; a drop in accuracy triggers a review decision.
-- **Ground truth**: the original vs corrected Australian report (14 dropped references; the original must still be public, see open question 2), plus planted errors (a fake DOI, a wrong author, a claim the source doesn't make). Planted cases extend the real core; they never replace it.
+- **Ground truth**: the original vs corrected Australian report (14 references, derived from 127 of 141 surviving; the original must still be public, see open question 2), plus planted errors (a fake DOI, a wrong author, a claim the source doesn't make). Planted cases extend the real core; they never replace it.
 - **Model choice**: Receipts runs the same suite on each free model in the chain and recommends the best one.
 
 ## Who this serves
@@ -61,7 +62,7 @@ Evals are the center of the project, and they are visible: an evals page shows t
 | Provectus, Associate FDE | build the eval harness before the feature; explain to non-engineers | evals page, explainer page and clip |
 | Deloitte, FDE AWS | GenAI on AWS; evals and monitoring; tests, CI/CD, logging | evals in CI, tracing; AWS mapping explained in the video |
 
-Posting sources: see the addendum.
+Posting sources: see the addendum. The Deloitte row is based on a saved summary, not the full posting.
 
 ## Scope
 
@@ -89,6 +90,12 @@ Posting sources: see the addendum.
 5. How many cases will Luis hand-label for calibration?
 6. Which free sign-in option fits the stack? (Owners: the product manager and the architect.)
 7. Slicing test cases by type, timeouts and recovery, and the failure diagnosis order: still open for the PRD (see the addendum).
+8. Label definitions: does "not found" mean the cited work doesn't exist, the passage isn't in a readable source, or both? How do "unavailable" and uncited claims count in the metrics?
+9. Python eval scripts are not in `STACK.md` (it pins promptfoo). They need a README `stack_note`, and model calls in evals must still go through `llm()` or say why not.
+10. Where do uploaded reports live, for how long, under which row-level security policy, and do guest reports move to a real account on sign-in? People may upload confidential reports.
+11. How does a multi-step agent fit the Worker's 10 ms CPU, and where do the embeddings for semantic search come from (none in the stack today)?
+12. How do guests stay under the per-visitor limit (20 calls a minute) and the daily cap (200)? A claims-per-report limit, and a "rate limited" status per claim?
+13. The hard-block gate stays warn-only until questions 1 and 5 are answered.
 
 ## Vision
 

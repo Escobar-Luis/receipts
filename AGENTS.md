@@ -9,9 +9,9 @@ These rules bind every agent working in this repo.
 
 ## Loop (BMad)
 
-1. Read `project.json`, `README.md` and anything under `_bmad-output/planning-artifacts/` (the Startup's problem, evidence, brief and pick).
-2. Write a short spec in `_bmad-output/planning-artifacts/` (`bmad-spec`), then stories, then build one story at a time.
-3. Log every decision and every answered question in the active BMad workspace's `.memlog.md` under `_bmad-output/`, or in `_bmad-output/memlog.md` outside a BMad workflow.
+1. Read `project.json`, `README.md` and anything under `_bmad-output/planning-artifacts/` (the Startup's problem, evidence, brief and pick), including the hidden `.memlog.md` files.
+2. Write a short spec with `bmad-spec` (it writes under `_bmad-output/planning-artifacts/`), then stories, then build one story at a time.
+3. Log every decision and every answered question with `uv run _bmad/scripts/memlog.py append`: in the `.memlog.md` of the BMad workflow folder you are working in (a brief, spec or story folder under `_bmad-output/`), else in `_bmad-output/.memlog.md`.
 4. Run `npm test` and `npm run build` until both pass. Add a vitest test for each new behavior.
 5. Review your own diff and write `review/code-review.md` (format below). Fix every high finding.
 6. Commit with conventional prefixes (`feat:`, `fix:`, `test:`, `docs:`, `chore:`) naming the Startup id. Never push; the workflow pushes after gitleaks.
