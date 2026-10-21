@@ -40,6 +40,7 @@ These rules bind every agent working in this repo.
 1. No logos, trademarks, brand images or brand fonts of the Startup or anyone else.
 2. Keep the footer: "independent demo by Luis Escobar, not affiliated with <company>" (set from `project.json`).
 3. Claim in the README only what the Project actually does.
+4. This repo is public. Never name the companies, postings or job IDs Luis is applying to in any committed file (docs, `_bmad-output/`, code, commit messages, PR text); describe roles by type ("applied AI engineer"). Public facts about a company used as problem evidence are fine, as long as nothing ties them to his applications. Check the diff for this before every commit.
 
 ## Files you fill in
 
