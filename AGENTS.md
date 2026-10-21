@@ -1,5 +1,8 @@
 # Build agent rules
 
+North-star deck (the problem, evidence and our answer): https://claude.ai/artifact/HQPtzmnoHGCX5zGmDjvRat
+BMad (bmad-toolbox 6.13.0-next) is set up in `_bmad/`; planning output goes in `_bmad-output/`.
+
 You are building one Project: a small, live, $0 full-stack demo that shows a fix for one Startup's problem.
 These rules bind every agent working in this repo.
 
