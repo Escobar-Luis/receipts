@@ -6,16 +6,9 @@ updated: 2026-10-21
 
 # Addendum: depth for the PRD and architecture
 
-## Posting sources
-
-- Unify, Applied AI Engineer: https://www.linkedin.com/jobs/view/4482028342
-- Quora, Full Stack New Grad: no public link saved
-- Provectus, Associate FDE: no public link saved
-- Deloitte, FDE AWS: https://apply.deloitte.com/en_US/careers/InviteToApply?jobId=350570 (Luis's saved copy is a summary, not the full posting)
-
 ## Party-mode findings (2026-10-21): a BMad multi-agent discussion
 
-Gaps found against the five skills: no AWS (Deloitte), no Python (Quora), evals nobody can see, agent steps hidden. Luis chose: visible evals first; Python for evals; Cloudflare over AWS, explained in the video; guest plus real sign-in.
+Gaps found against the five skills: no AWS, no Python, evals nobody can see, agent steps hidden. Luis chose: visible evals first; Python for evals; Cloudflare over AWS, explained in the video; guest plus real sign-in.
 
 UI sketches discussed (not designs yet):
 - Evals page: score cards (recall, precision, quotes verified, best free model), the 2x2, missed cases with the agent's steps.

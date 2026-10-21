@@ -8,13 +8,13 @@ updated: 2026-10-21
 # Product Brief: Receipts
 
 North-star deck: https://claude.ai/artifact/HQPtzmnoHGCX5zGmDjvRat
-Addendum: [addendum.md](addendum.md) (posting sources, party-mode findings, evals checklist, book consult, prior art).
+Addendum: [addendum.md](addendum.md) (party-mode findings, evals checklist, book consult, prior art).
 
 ## Executive summary
 
 Receipts checks the citations in an AI-written report before someone signs it. You upload or paste a report. An agent pulls out each claim and its citation, fetches the cited source with tool calls, finds the matching passage, and labels the claim supported, contradicted, not found or misquoted. Each label comes with a receipt: the exact source line, linked where the source allows it.
 
-It is also Luis Escobar's portfolio project. It has to show five skills, on screen and not only in the code, to four hiring teams (Unify, Quora, Provectus, Deloitte): an LLM in a deployed app, an agent with tool calls, retrieval with citations, evals, and a clear story. It runs entirely on free tiers.
+It is also Luis Escobar's portfolio project. It has to show five skills, on screen and not only in the code, to hiring teams for applied AI, full-stack and forward-deployed engineering roles: an LLM in a deployed app, an agent with tool calls, retrieval with citations, evals, and a clear story. It runs entirely on free tiers.
 
 ## The problem
 
@@ -53,16 +53,14 @@ Evals are the center of the project, and they are visible: an evals page shows t
 ## Who this serves
 
 - **Users**: whoever signs a report an AI helped write: consultants and analysts. Success for them is catching a fake reference before the client does.
-- **Audience**: hiring managers and engineers at the four target companies, who open a link for a few minutes. Success is that they see the agent work, see the evals, and understand both without reading code.
+- **Audience**: hiring managers and engineers for those roles, who open a link for a few minutes. Success is that they see the agent work, see the evals, and understand both without reading code.
 
-| Posting | What it asks for | Where Receipts shows it |
+| Role type | What such postings ask for | Where Receipts shows it |
 |---|---|---|
-| Unify, Applied AI Engineer | evals from real tasks; traces; user visibility into agent actions | evals page, agent steps per claim |
-| Quora, Full Stack New Grad | full stack with Python and React | React app, Python eval scripts |
-| Provectus, Associate FDE | build the eval harness before the feature; explain to non-engineers | evals page, explainer page and clip |
-| Deloitte, FDE AWS | GenAI on AWS; evals and monitoring; tests, CI/CD, logging | evals in CI, tracing; AWS mapping explained in the video |
-
-Posting sources: see the addendum. The Deloitte row is based on a saved summary, not the full posting.
+| Applied AI engineer | evals from real tasks; traces; user visibility into agent actions | evals page, agent steps per claim |
+| Full-stack new grad | full stack with Python and React | React app, Python eval scripts |
+| Associate forward-deployed engineer | build the eval harness before the feature; explain to non-engineers | evals page, explainer page and clip |
+| Forward-deployed engineer, AWS | GenAI on AWS; evals and monitoring; tests, CI/CD, logging | evals in CI, tracing; AWS mapping explained in the video |
 
 ## Scope
 
