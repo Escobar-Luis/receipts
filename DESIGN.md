@@ -55,6 +55,7 @@ motion:
   drawer: 480ms
   scrim: 240ms
   shimmer-cycle: 1.6s
+  # The Motion catalogue table is the source for every other timing.
 rounded:
   sm: 4px
   md: 8px
@@ -171,7 +172,7 @@ Labels (verdicts) get a state colour; statuses (no verdict) stay neutral, so a c
 Every chip has a 1px border in its text colour at 40% (`chip-border-alpha`).
 
 **The Word First Rule.** A status is always its word ("contradicted"); colour never stands alone.
-**The One Voice Rule.** Coral fills at most one action per screen; focus rings and the open row's edge are coral outlines, never fills. Red belongs to "contradicted" and the injection note only.
+**The One Voice Rule.** Coral fills at most one action per screen; focus rings, the open row's edge and the verified source line's frame are coral outlines, never fills. The one other coral mark is the checking row's faint reading band, a translucent wash, never a solid fill. Red belongs to "contradicted" and the injection note only.
 
 ## Typography
 
@@ -205,6 +206,37 @@ screen uses it at 1024px and wider; below that the receipt opens under its row.
 Flat. Depth comes from three tones (canvas, surface, surface-sunk) and hairlines; no drop shadows. The
 trace drawer gets a soft scrim over the page behind it, like a music app's up-next shelf.
 
+## Motion catalogue
+
+Luis approved this set on 2026-10-22 ("The motion feels right"). Each element has its own motion.
+Structural moves (rows, chips, panels, drawers) stay within 280-480ms. Progress motions (fills, sweeps,
+cycles, the stepped progress bar and the demo chip's steps) run slower because they show progress, not
+structure; hover feedback is quicker because it answers the pointer.
+
+| Element | Motion | Timing |
+| --- | --- | --- |
+| Headline | Each line wipes up from a clip, 120ms apart | 480ms, `ease-rise` |
+| Claim rows | Rise 12px and fade, 60ms apart | 360ms, `ease-rise` |
+| Row being checked | A faint coral reading band moves across the claim text, plus a shimmer on the bottom hairline | 2.4s and 1.6s loops, linear |
+| Status chip | Old word slides up 6px and out, new word slides up 6px and in | 280ms, ease-out |
+| Landing demo chip | Waiting → Fetching the source → Checking the quote → Supported | one step every 1.2s |
+| Progress bar | Fills in steps, one per claim | one step as each claim finishes, 280ms |
+| Stat values | Tick up from below a mask, 80-90ms apart | 420ms |
+| Receipt panel | Slides in from the right | 420ms, `ease-panel` |
+| Agent steps | Appear one by one from the left, 160ms apart | 300ms each |
+| Verified mark | Its tick draws itself | 360ms |
+| Source line | A coral frame wipes closed around the matched line after verification | 420ms |
+| Mismatch highlight | Sweeps across the differing words after the panel settles | 320ms |
+| Trace bars | Waterfall: each bar starts where the last ended; the step name brightens when its bar finishes | 900ms each |
+| Worst-mistake number | Flips down into place | 420ms |
+| Recommended chip | One light sweep | 700ms |
+| Hover | Coral hairline on rows, brighter buttons, link arrows nudge 3px | 200ms, ease |
+
+Design mock-ups on the canvas loop on a 6-second cycle (play, hold about 4s, reset) so the motion can be
+judged without reloading. In the product, entrances play once, and the live indicators (reading band,
+shimmer, demo chip) run only while a claim is being checked. Under reduced motion every row above falls
+back to its end state, as described under Accessibility.
+
 ## Shapes
 
 Gently curved panels (8px rows, 14px receipt panel), fully round pills for chips and buttons, square 4px corners only on inline code.
@@ -223,8 +255,9 @@ Gently curved panels (8px rows, 14px receipt panel), fully round pills for chips
 
 ### Receipt panel
 - **Shape:** 14px corners, 24px padding; the source line sits in a sunk well.
-- **Motion:** expands from its row (height and opacity) over 420ms on `cubic-bezier(0.2, 0, 0, 1)`, like
-  a music app's mini-player growing into the full player; collapses in 300ms. Mismatched words highlight after
+- **Motion:** at 1024px and wider it slides in from the right over 420ms on `cubic-bezier(0.2, 0, 0, 1)`;
+  below that it expands from its row (height and opacity) over the same 420ms, like a music app's
+  mini-player growing into the full player. Either way it closes in 300ms. Mismatched words highlight after
   the panel settles, 200ms later.
 
 ### Receipt marks (PRD FR2a-FR2d)
@@ -257,8 +290,11 @@ Text contrast on the dark tones (WCAG 2.2 AA asks 4.5:1 for text):
 Focus: a 2px coral ring with a 2px offset on every focusable thing, rows and chips included (PRD FR5).
 
 **Reduced motion.** Each motion has a still fallback: rows appear in place; chips swap words instantly;
-the checking row shows its step word ("checking the quote") with no shimmer; the receipt panel and
-drawer appear without sliding and the scrim shows at once; highlights are present from the start.
+the checking row shows its step word ("checking the quote") with no shimmer or reading band; the receipt panel and
+drawer appear without sliding and the scrim shows at once; highlights are present from the start; the
+headline, stat values, agent steps, verified mark, source frame, trace bars, worst-mistake number and
+recommended chip show their end state; the progress bar and demo chip change without transitions; hover
+keeps its colour change and drops the arrow nudge.
 
 ## Do's and Don'ts
 
@@ -269,6 +305,6 @@ drawer appear without sliding and the scrim shows at once; highlights are presen
 - **Do** pair every status colour with its word.
 
 ### Don't:
-- **Don't** use springs, bounces or sub-250ms moves for structural changes, meaning rows, chips, panels and drawers (Luis: too fast). Stagger offsets, delays, the scrim fade and the looping shimmer are not structural moves.
+- **Don't** use springs, bounces or sub-250ms moves for structural changes, meaning rows, chips, panels and drawers (Luis: too fast). Stagger offsets, delays, the scrim fade, the looping shimmer and reading band, and hover feedback are not structural moves.
 - **Don't** reuse one fade for everything (Luis: all the same motion).
 - **Don't** use coral and red together on one element.
