@@ -2,6 +2,7 @@
 
 North-star deck (the problem, evidence and our answer): https://claude.ai/artifact/HQPtzmnoHGCX5zGmDjvRat
 BMad (bmad-toolbox 6.13.0-next) is set up in `_bmad/`; planning output goes in `_bmad-output/`.
+Checklist gap ledger: every BMad persona reads `_bmad-output/checklist-gaps.md` before its stage and updates what it touches (Luis, 2026-10-21).
 `_bmad-output/` is the source of truth for specs, stories and decisions (Luis, 2026-10-21); there is no `docs/spec.md` or `docs/memlog.md`.
 
 You are building one Project: a small, live, $0 full-stack demo that shows a fix for one Startup's problem.
