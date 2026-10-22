@@ -13,6 +13,8 @@ colors:
   good: "#5db872"
   warm: "#d4a017"
   bad: "#d16868"
+  highlight: "rgba(212,160,23,0.18)"
+  chip-border-alpha: "0.4"
 typography:
   display:
     fontFamily: "Source Serif 4, Georgia, serif"
@@ -41,6 +43,18 @@ typography:
     fontSize: 13px
     fontWeight: 400
     lineHeight: 1.5
+motion:
+  ease-rise: "cubic-bezier(0.22, 1, 0.36, 1)"
+  ease-panel: "cubic-bezier(0.2, 0, 0, 1)"
+  row-enter: 360ms
+  row-stagger: 60ms
+  chip-change: 280ms
+  panel-open: 420ms
+  panel-close: 300ms
+  highlight: 320ms
+  drawer: 480ms
+  scrim: 240ms
+  shimmer-cycle: 1.6s
 rounded:
   sm: 4px
   md: 8px
@@ -77,6 +91,19 @@ components:
     rounded: "{rounded.pill}"
     padding: 6px 10px
   status-chip-neutral:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.ink-muted}"
+    typography: "{typography.label}"
+    rounded: "{rounded.pill}"
+    padding: 6px 10px
+  status-chip-needs-human:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.ink}"
+    borderStyle: dashed
+    typography: "{typography.label}"
+    rounded: "{rounded.pill}"
+    padding: 6px 10px
+  status-chip-in-progress:
     backgroundColor: "{colors.surface}"
     textColor: "{colors.ink-muted}"
     typography: "{typography.label}"
@@ -133,19 +160,24 @@ A black stage, charcoal surfaces, one coral voice, and four state colours that a
 - **Smoke** (`ink-muted`): sources, timestamps, metadata; 7.1:1 on a panel.
 
 ### States
-- **Verified Green** (`good`): supported.
-- **Amber Note** (`warm`): misquoted, in progress, rate limited.
+Labels (verdicts) get a state colour; statuses (no verdict) stay neutral, so a colour always means a verdict.
+- **Verified Green** (`good`): supported, and the "verified in source" mark.
+- **Amber Note** (`warm`): misquoted, and the mismatch highlight (`highlight`).
 - **Muted Red** (`bad`, lifted to read 4.5:1 on a panel): contradicted.
-- **Smoke** (`ink-muted`): not found, no citation, unavailable, needs a human.
+- **Smoke** (`ink-muted`): not found, plus the statuses no citation, unavailable and rate limited.
+- **Needs a human**: paper-white text in a dashed pill, so the default "needs review" view can tell it from "not found".
+- **In progress** (waiting, fetching, finding the passage, checking the quote): a smoke pill with the step's word; the row's shimmer carries the "live" feeling.
+
+Every chip has a 1px border in its text colour at 40% (`chip-border-alpha`).
 
 **The Word First Rule.** A status is always its word ("contradicted"); colour never stands alone.
-**The One Voice Rule.** Coral appears on at most one action per screen; red belongs to "contradicted" only.
+**The One Voice Rule.** Coral fills at most one action per screen; focus rings and the open row's edge are coral outlines, never fills. Red belongs to "contradicted" and the injection note only.
 
 ## Typography
 
 **Display Font:** Source Serif 4, with Georgia
 **Body Font:** Inter, with system-ui
-**Label/Mono Font:** JetBrains Mono for sources, line numbers and the trace
+**Mono Font:** JetBrains Mono for sources, line numbers and the trace
 
 **Character:** an editor's serif for statements over a plain humanist sans for the tool around them.
 
@@ -166,7 +198,7 @@ place under its row on phones and as a side panel at desktop width; the full tra
 **Picked layout (Luis, 2026-10-22): the side panel.** Of four report-view variations (inline, side panel,
 bottom sheet, pulled quote), Luis chose the side panel: claim rows on the left, the open receipt in a
 420-480px panel on the right that slides in from the right (420ms, `cubic-bezier(0.2, 0, 0, 1)`). Every
-screen uses it.
+screen uses it at 1024px and wider; below that the receipt opens under its row.
 
 ## Elevation & Depth
 
@@ -195,12 +227,38 @@ Gently curved panels (8px rows, 14px receipt panel), fully round pills for chips
   a music app's mini-player growing into the full player; collapses in 300ms. Mismatched words highlight after
   the panel settles, 200ms later.
 
+### Receipt marks (PRD FR2a-FR2d)
+- **Mismatch highlight:** differing words get `highlight` behind amber text plus a 2px underline, so it reads without colour.
+- **Verified in source:** a small `good` pill in the source well, with the word.
+- **Evidence strength:** "evidence: strong" or "evidence: partial" in mono smoke beside the label.
+- **Injection note:** a dashed `bad`-bordered note inside the receipt reading "this source tried to instruct the checker"; the claim's chip is "needs a human".
+
 ### Trace drawer
 - **Motion:** slides up from the bottom over 480ms ease-out with a 240ms scrim fade (a music app's up-next
   shelf).
 
 ### Buttons
 - **Primary:** coral pill, black label; hover lifts brightness, focus shows a 2px coral ring.
+
+## Accessibility
+
+Text contrast on the dark tones (WCAG 2.2 AA asks 4.5:1 for text):
+
+| Text | On | Ratio |
+| --- | --- | --- |
+| ink-muted #aaaaaa | surface #1f1f1f | 7.1:1 |
+| warm #d4a017 | surface | 6.9:1 |
+| good #5db872 | surface | 6.7:1 |
+| bad #d16868 | surface | 4.6:1 (no room to darken the surface) |
+| coral #cc785c | canvas #030303 | 6.3:1 |
+| coral | surface | 5.0:1 |
+| canvas #030303 on a coral button | | 6.3:1 |
+
+Focus: a 2px coral ring with a 2px offset on every focusable thing, rows and chips included (PRD FR5).
+
+**Reduced motion.** Each motion has a still fallback: rows appear in place; chips swap words instantly;
+the checking row shows its step word ("checking the quote") with no shimmer; the receipt panel and
+drawer appear without sliding and the scrim shows at once; highlights are present from the start.
 
 ## Do's and Don'ts
 
@@ -211,6 +269,6 @@ Gently curved panels (8px rows, 14px receipt panel), fully round pills for chips
 - **Do** pair every status colour with its word.
 
 ### Don't:
-- **Don't** use springs, bounces or sub-250ms moves for structural changes (Luis: too fast).
+- **Don't** use springs, bounces or sub-250ms moves for structural changes, meaning rows, chips, panels and drawers (Luis: too fast). Stagger offsets, delays, the scrim fade and the looping shimmer are not structural moves.
 - **Don't** reuse one fade for everything (Luis: all the same motion).
 - **Don't** use coral and red together on one element.
