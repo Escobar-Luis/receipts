@@ -163,6 +163,11 @@ A black stage, charcoal surfaces, one coral voice, and four state colours that a
 Single column of claim rows, 8px rhythm (`xs` to `lg`), 16px side gutter on phones. A receipt opens in
 place under its row on phones and as a side panel at desktop width; the full trace is a bottom drawer.
 
+**Picked layout (Luis, 2026-10-22): the side panel.** Of four report-view variations (inline, side panel,
+bottom sheet, pulled quote), Luis chose the side panel: claim rows on the left, the open receipt in a
+420-480px panel on the right that slides in from the right (420ms, `cubic-bezier(0.2, 0, 0, 1)`). Every
+screen uses it.
+
 ## Elevation & Depth
 
 Flat. Depth comes from three tones (canvas, surface, surface-sunk) and hairlines; no drop shadows. The
@@ -202,6 +207,7 @@ Gently curved panels (8px rows, 14px receipt panel), fully round pills for chips
 ### Do:
 - **Do** keep every screen dark; light only on request.
 - **Do** give each moving element its own motion (rise, crossfade, expand, slide); 280-480ms; all off under reduced motion.
+- **Do** loop motion in design mock-ups (play, hold, replay) so it can be judged without reloading.
 - **Do** pair every status colour with its word.
 
 ### Don't:
